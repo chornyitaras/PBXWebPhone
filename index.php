@@ -19,10 +19,30 @@ $phone_login = base64_decode($phone_login);
         <title>WEB PHONE</title>
     </head>
     <body>
-        <audio id="ringtone" src="sounds/incoming.mp3" loop></audio>
-        <audio id="audioRemote"></audio>
+        <audio id="bell" src="sounds/incoming.mp3" loop></audio>
+        <audio id="vioce"></audio>
 
-        <p id="status"></p>
+        <p id="state"></p>
         <script type="text/javascript" src="scripts/sip-0.7.5.min.js"></script>
+        <script type="text/javascript">
+
+            var bell = document.getElementById('bell');
+            var state = document.getElementById('state');
+            var Stream;
+            var url = window.location.href;
+            var arr = url.split("/");
+            var config = {
+                password: '<?php echo $phone_pass ?>',
+                displayName: '<?php echo $phone_login ?>',//,
+                uri: 'sip:' + '<?php echo $phone_login ?>' + '@' + arr[2],
+                wsServers: 'wss://'+ arr[2] +':8089/ws',
+                hackWssInTransport: true,
+                registerExpires: 30,
+                traceSip: true,
+                log: {
+                    level: 3
+                }
+            };
+        </script>
     </body>
 </html>
