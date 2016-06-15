@@ -9,7 +9,7 @@ It is recommended that your Vicidial installation supports secure connection.
 - In vicidial ADMINISTRATION page change Admin->System Settings->Webphone URL: to
   PBXWebPhone/index.php
 - Enable webphone in phone config 
-   * Admin->Phones-><Phone exten> change "Set As Webphone" yo "Y"
+   * Admin->Phones-><Phone exten> change "Set As Webphone" to "Y"
 
 
 Check out [Wiki](https://github.com/chornyitaras/PBXWebPhone/wiki) for more information.
