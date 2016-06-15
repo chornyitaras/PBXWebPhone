@@ -25,8 +25,8 @@ function setState(newState) {
     } catch (e) {
     }
 }
-function setCallState(staus) {
- $('#callState').html(status);
+function setCallState(newStatus) {
+ $('#callState').html(newStatus);
 }
 
 function newSession(newSess) {
