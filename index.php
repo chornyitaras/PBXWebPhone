@@ -20,7 +20,7 @@ $phone_login = base64_decode($phone_login);
     </head>
     <body>
         <audio id="bell" src="sounds/incoming.mp3" loop></audio>
-        <audio id="vioce"></audio>
+        <audio id="voice"></audio>
 
         <p id="state"></p>
         <script type="text/javascript" src="scripts/sip-0.7.5.min.js"></script>

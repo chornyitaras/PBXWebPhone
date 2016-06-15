@@ -128,7 +128,7 @@ function newSession(newSess) {
             stream: Stream,
             constraints: {audio: true, video: false},
             render: {
-                remote: document.getElementById('audioRemote')
+                remote: document.getElementById('voice')
             },
             RTCConstraints: {"optional": [{'DtlsSrtpKeyAgreement': 'true'}]}
         }
