@@ -44,5 +44,6 @@ $phone_login = base64_decode($phone_login);
                 }
             };
         </script>
+        <script type="text/javascript" src="scripts/phone.js"></script>
     </body>
 </html>
