@@ -25,6 +25,10 @@ function setState(newState) {
     } catch (e) {
     }
 }
+function setCallState(staus) {
+ $('#callState').html(status);
+}
+
 function newSession(newSess) {
 
     newSess.displayName = newSess.remoteIdentity.displayName || newSess.remoteIdentity.uri.user;
@@ -39,19 +43,19 @@ function newSession(newSess) {
         
     }
 
-    setState(status);
+    setCallState(status);
 
     // EVENT CALLBACKS
 
     newSess.on('progress', function (e) {
         if (e.direction === 'outgoing') {
-            setState('Calling...');
+            setCallState('Calling...');
         }
     });
 
     newSess.on('connecting', function (e) {
         if (e.direction === 'outgoing') {
-            setState('Connecting...');
+            setCallState('Connecting...');
         }
     });
 
@@ -62,7 +66,7 @@ function newSession(newSess) {
         }
 
         stopRingTone();
-        setState('Answered');
+        setCallState('Answered');
 
         callActiveID = newSess.ctxid;
     });
@@ -79,17 +83,17 @@ function newSession(newSess) {
 
     newSess.on('muted', function (e) {
         Sessions[newSess.ctxid].isMuted = true;
-        setState("Muted");
+        setCallState("Muted");
     });
 
     newSess.on('unmuted', function (e) {
         Sessions[newSess.ctxid].isMuted = false;
-        setState("Answered");
+        setCallState("Answered");
     });
 
     newSess.on('cancel', function (e) {
         stopRingTone();
-        setState("Canceled");
+        setCallState("Canceled");
         if (this.direction === 'outgoing') {
             callActiveID = null;
             newSess = null;
@@ -107,12 +111,12 @@ function newSession(newSess) {
 
     newSess.on('failed', function (e) {
         stopRingTone();
-        setState('Terminated');
+        setCallState('Terminated');
     });
 
     newSess.on('rejected', function (e) {
         stopRingTone();
-        setState('Rejected');
+        setCallState('Rejected');
         callActiveID = null;
 
         newSess = null;

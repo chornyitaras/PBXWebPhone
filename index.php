@@ -23,6 +23,7 @@ $phone_login = base64_decode($phone_login);
         <audio id="voice"></audio>
 
         <p id="state"></p>
+        <p id="callState"></p>
         <script type="text/javascript" src="scripts/sip-0.7.5.min.js"></script>
 		<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -36,12 +37,16 @@ $phone_login = base64_decode($phone_login);
             var arr = url.split("/");
             var config = {
                 password: '<?php echo $phone_pass ?>',
+                authorizationUser: '<?php echo $phone_login ?>',
                 displayName: '<?php echo $phone_login ?>',//,
                 uri: 'sip:' + '<?php echo $phone_login ?>' + '@' + arr[2],
                 wsServers: 'wss://'+ arr[2] +':8089/ws',
                 hackWssInTransport: true,
                 registerExpires: 30,
-                traceSip: true,
+                iceCheckingTimeout: 10000,
+                hackViaTcp: true,
+                hackIpInContact: true,
+                traceSip: false,
                 log: {
                     level: 3
                 }
