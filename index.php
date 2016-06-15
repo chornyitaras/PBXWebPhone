@@ -24,11 +24,14 @@ $phone_login = base64_decode($phone_login);
 
         <p id="state"></p>
         <script type="text/javascript" src="scripts/sip-0.7.5.min.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script type="text/javascript">
 
             var bell = document.getElementById('bell');
             var state = document.getElementById('state');
             var Stream;
+			var callActiveID;
             var url = window.location.href;
             var arr = url.split("/");
             var config = {

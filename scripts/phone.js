@@ -36,22 +36,22 @@ function newSession(newSess) {
         startRingTone();
     } else {
         status = "Trying: " + newSess.displayName;
-        startRingbackTone();
+        
     }
 
-    setStatus(status);
+    setState(status);
 
     // EVENT CALLBACKS
 
     newSess.on('progress', function (e) {
         if (e.direction === 'outgoing') {
-            setStatus('Calling...');
+            setState('Calling...');
         }
     });
 
     newSess.on('connecting', function (e) {
         if (e.direction === 'outgoing') {
-            setStatus('Connecting...');
+            setState('Connecting...');
         }
     });
 
@@ -61,9 +61,8 @@ function newSession(newSess) {
             // phoneHoldButtonPressed(callActiveID);
         }
 
-        stopRingbackTone();
         stopRingTone();
-        setStatus('Answered');
+        setState('Answered');
 
         callActiveID = newSess.ctxid;
     });
@@ -80,18 +79,17 @@ function newSession(newSess) {
 
     newSess.on('muted', function (e) {
         Sessions[newSess.ctxid].isMuted = true;
-        setStatus("Muted");
+        setState("Muted");
     });
 
     newSess.on('unmuted', function (e) {
         Sessions[newSess.ctxid].isMuted = false;
-        setStatus("Answered");
+        setState("Answered");
     });
 
     newSess.on('cancel', function (e) {
         stopRingTone();
-        stopRingbackTone();
-        setStatus("Canceled");
+        setState("Canceled");
         if (this.direction === 'outgoing') {
             callActiveID = null;
             newSess = null;
@@ -101,8 +99,7 @@ function newSession(newSess) {
 
     newSess.on('bye', function (e) {
         stopRingTone();
-        stopRingbackTone();
-        setStatus("");
+        setState("");
 
         callActiveID = null;
         newSess = null;
@@ -110,14 +107,12 @@ function newSession(newSess) {
 
     newSess.on('failed', function (e) {
         stopRingTone();
-        stopRingbackTone();
-        setStatus('Terminated');
+        setState('Terminated');
     });
 
     newSess.on('rejected', function (e) {
         stopRingTone();
-        stopRingbackTone();
-        setStatus('Rejected');
+        setState('Rejected');
         callActiveID = null;
 
         newSess = null;
