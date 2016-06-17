@@ -14,5 +14,9 @@ It is recommended that your Vicidial installation supports secure connection.
 
 Check out [Wiki](https://github.com/chornyitaras/PBXWebPhone/wiki) for more information.
 
+# Screenshot
+You should see something like this if everything configured correctly:
+
+<img src="img1.PNG">
 
 **PS:**  I advise to use [letsencrypt](https://letsencrypt.org/) for getting **free** ssl certificates 
