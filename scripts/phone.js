@@ -12,13 +12,6 @@ function stopRingTone() {
     }
 }
 
-function getUserMediaFailure(e) {
-    window.console.error('getUserMedia failed:', e);
-}
-
-function getUserMediaSuccess(stream) {
-    Stream = stream;
-}
 function setState(newState) {
     try {
         state.innerHTML = newState.toString();
@@ -29,6 +22,14 @@ function setCallState(newStatus) {
  $('#callState').html(newStatus);
 }
 
+function getUserMediaFailure(e) {
+    window.console.error('getUserMedia failed:', e);
+	setState("You must allow access to your microphone.");
+}
+
+function getUserMediaSuccess(stream) {
+    Stream = stream;
+}
 function newSession(newSess) {
 
     newSess.displayName = newSess.remoteIdentity.displayName || newSess.remoteIdentity.uri.user;
@@ -141,6 +142,19 @@ $(document).ready(function () {
     phone.on('connected', function (e) {
         setState("Connected");
     });
+	
+	phone.on('disconnected', function(e) {
+        setState('An Error occurred connecting to the websocket.');
+    });
+	
+	phone.on('registrationFailed', function(e) {
+        setState('An Error occurred registering your phone. Check your settings.');
+    });
+	
+	phone.on('unregistered', function(e) {
+       setState('An Error occurred registering your phone. Check your settings.');
+    });
+	
     phone.on('registered', function (e) {
 
         setState("Ready");
