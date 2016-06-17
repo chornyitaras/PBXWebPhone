@@ -44,7 +44,6 @@ $phone_login = base64_decode($phone_login);
                 hackWssInTransport: true,
                 registerExpires: 30,
                 iceCheckingTimeout: 10000,
-                hackViaTcp: true,
                 hackIpInContact: true,
                 traceSip: false,
                 log: {
