@@ -144,15 +144,15 @@ $(document).ready(function () {
     });
 	
 	phone.on('disconnected', function(e) {
-        setState('An Error occurred connecting to the websocket.');
+        setState('An Error occurred while connecting to the websocket.');
     });
 	
 	phone.on('registrationFailed', function(e) {
-        setState('An Error occurred registering your phone. Check your settings.');
+        setState('An Error occurred while registering your phone. Check your settings.');
     });
 	
 	phone.on('unregistered', function(e) {
-       setState('An Error occurred registering your phone. Check your settings.');
+       setState('An Error occurred while registering your phone. Check your settings.');
     });
 	
     phone.on('registered', function (e) {
