@@ -9,7 +9,7 @@ It is required that your Vicidial installation supports secure connection.
 - Clone this project into agc directory (if you are using vicibox /srv/www/htdocs/agc/)
 - Configure asterisk ([Asterisk configuration example](https://github.com/chornyitaras/PBXWebPhone/wiki/Asterisk-configuration))  
 - Configure apache ([Apache configuration example](https://github.com/chornyitaras/PBXWebPhone/wiki/Apache-configuration))  
-- Configure Vicidial ([Vicidial configuration example](https://github.com/chornyitaras/PBXWebPhone/wiki/Apache-configuration))  
+- Configure Vicidial ([Vicidial configuration example](https://github.com/chornyitaras/PBXWebPhone/wiki/Vicidial-configuration))  
  
 # Screenshot
 You should see something like this when login as agent:
