@@ -14,7 +14,7 @@ It is required that your Vicidial installation supports secure connection.
 # Screenshot
 You should see something like this when login as agent:
 
-![ScreenShot](/img1.PNG)
+![Screenshot](https://raw.githubusercontent.com/chornyitaras/PBXWebPhone/master/img1.PNG)
 
 **PS:**  I advise to use [letsencrypt](https://letsencrypt.org/) for getting **free** ssl certificates
 
