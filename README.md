@@ -7,19 +7,12 @@ It is required that your Vicidial installation supports secure connection.
 
 
 - Clone this project into agc directory (if you are using vicibox /srv/www/htdocs/agc/)
-- In vicidial ADMINISTRATION page change Admin->System Settings->Webphone URL: to
-  PBXWebPhone/index.php
-- Enable webphone in phone config 
-   * Admin->Phones->\<Phone exten\> change "Set As Webphone" to "Y"
-- Specify Web Socket URL:
-  * Admin->Servers->\<Dialler server\>-> Web Socket URL: to "wss://\<server domain name\>:8089/ws"
 - Configure asterisk ([Asterisk configuration example](https://github.com/chornyitaras/PBXWebPhone/wiki/Asterisk-configuration))  
-
-
-Check out [Wiki](https://github.com/chornyitaras/PBXWebPhone/wiki) for more information.
-
+- Configure apache ([Apache configuration example](https://github.com/chornyitaras/PBXWebPhone/wiki/Apache-configuration))  
+- Configure Vicidial ([Vicidial configuration example](https://github.com/chornyitaras/PBXWebPhone/wiki/Apache-configuration))  
+ 
 # Screenshot
-You should see something like this if everything configured correctly:
+You should see something like this when login as agent:
 
 <img src="img1.PNG">
 
