@@ -14,7 +14,7 @@ It is required that your Vicidial installation supports secure connection.
 # Screenshot
 You should see something like this when login as agent:
 
-<img src="img1.PNG">
+![ScreenShot](/img1.PNG)
 
 **PS:**  I advise to use [letsencrypt](https://letsencrypt.org/) for getting **free** ssl certificates
 
