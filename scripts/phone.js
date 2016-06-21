@@ -61,34 +61,29 @@ function newSession(newSess) {
     });
 
     newSess.on('accepted', function (e) {
-        // If there is another active call, hold it
-        if (callActiveID && callActiveID !== newSess.ctxid) {
-            // phoneHoldButtonPressed(callActiveID);
-        }
-
         stopRingTone();
         setCallState('Answered');
 
-        callActiveID = newSess.ctxid;
+        activeCall = true;
     });
 
     newSess.on('hold', function (e) {
-        callActiveID = null;
+        activeCall = false;
 
     });
 
     newSess.on('unhold', function (e) {
 
-        callActiveID = newSess.ctxid;
+        activeCall = true;
     });
 
     newSess.on('muted', function (e) {
-        Sessions[newSess.ctxid].isMuted = true;
+        isMuted = true;
         setCallState("Muted");
     });
 
     newSess.on('unmuted', function (e) {
-        Sessions[newSess.ctxid].isMuted = false;
+        isMuted = false;
         setCallState("Answered");
     });
 
@@ -96,7 +91,7 @@ function newSession(newSess) {
         stopRingTone();
         setCallState("Canceled");
         if (this.direction === 'outgoing') {
-            callActiveID = null;
+            activeCall = false;
             newSess = null;
 
         }
@@ -106,7 +101,7 @@ function newSession(newSess) {
         stopRingTone();
         setState("");
 
-        callActiveID = null;
+        activeCall = false;
         newSess = null;
     });
 
@@ -118,7 +113,7 @@ function newSession(newSess) {
     newSess.on('rejected', function (e) {
         stopRingTone();
         setCallState('Rejected');
-        callActiveID = null;
+        activeCall = false;
 
         newSess = null;
     });
@@ -133,6 +128,7 @@ function newSession(newSess) {
             RTCConstraints: {"optional": [{'DtlsSrtpKeyAgreement': 'true'}]}
         }
     });
+    Session   = newSess;
 
 }
 
@@ -168,7 +164,11 @@ $(document).ready(function () {
     phone.on('invite', function (incomingSession) {
 
         var s = incomingSession;
-
+        if (activeCall)
+        {
+            s.reject();
+            return;
+        }
         s.direction = 'incoming';
         newSession(s);
 
