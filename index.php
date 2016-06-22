@@ -38,6 +38,7 @@ $options = base64_decode($options);
         <p id="state"></p>
         <p id="callState"></p>
         <p id="errState"></p>
+        <button id="btn" onclick="mute_unmute()">Mute</button>
         <script type="text/javascript" src="scripts/sip-0.7.5.min.js"></script>
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -46,8 +47,10 @@ $options = base64_decode($options);
             var bell = document.getElementById('bell');
             var state = document.getElementById('state');
             var Stream;
-            var callActiveID;
+            var activeCall = false;
             var ws_url = "";
+            var Session = null;
+            var isMuted = false;
             var options = '<?php echo $options ?>';
             options = options.split("--");
             for (i in options)
@@ -69,6 +72,33 @@ $options = base64_decode($options);
                 domain = domain.split(':')[0];
 
                 return domain;
+            }
+            function mute() {
+
+                if (Session)
+                {
+                    Session.mute();
+                }
+            }
+
+            function unmute() {
+
+                if (Session)
+                {
+                    Session.unmute();
+                }
+            }
+            function mute_unmute() {
+                if (activeCall) {
+                    if (!isMuted) {
+                        mute();
+                        $('#btn').html("Unmute");
+                    } else
+                    {
+                        unmute();
+                        $('#btn').html("Mute");
+                    }
+                }
             }
             if (ws_url.length < 5) {
                 $('#errState').html("Got wrong web socker url. Please check your settings");
