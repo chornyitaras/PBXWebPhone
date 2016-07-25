@@ -10,7 +10,8 @@ It is required that your Vicidial installation supports secure connection.
 - Configure asterisk ([Asterisk configuration example](https://github.com/chornyitaras/PBXWebPhone/wiki/Asterisk-configuration))  
 - Configure apache ([Apache configuration example](https://github.com/chornyitaras/PBXWebPhone/wiki/Apache-configuration))  
 - Configure Vicidial ([Vicidial configuration example](https://github.com/chornyitaras/PBXWebPhone/wiki/Vicidial-configuration))  
- 
+- Configure firewall (open port 8089)
+
 # Screenshot
 You should see something like this when login as agent:
 
