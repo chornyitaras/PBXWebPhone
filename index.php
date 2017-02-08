@@ -39,7 +39,7 @@ $options = base64_decode($options);
         <p id="callState"></p>
         <p id="errState"></p>
         <button id="btn" onclick="mute_unmute()">Mute</button>
-        <script type="text/javascript" src="scripts/sip-0.7.5.min.js"></script>
+        <script type="text/javascript" src="scripts/sip-0.7.7.min.js"></script>
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script type="text/javascript">
