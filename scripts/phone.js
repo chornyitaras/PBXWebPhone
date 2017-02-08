@@ -182,6 +182,7 @@ $(document).ready(function () {
     };
 
     var unRegisterPhoneEvent = function (e) {
+        console.info("Unregistering phone with closing event");
         window.unRegisterPhone();
     };
 
