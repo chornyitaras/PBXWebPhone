@@ -19,12 +19,12 @@ function setState(newState) {
     }
 }
 function setCallState(newStatus) {
- $('#callState').html(newStatus);
+    $('#callState').html(newStatus);
 }
 
 function getUserMediaFailure(e) {
     window.console.error('getUserMedia failed:', e);
-	setState("You must allow access to your microphone.");
+    setState("You must allow access to your microphone.");
 }
 
 function getUserMediaSuccess(stream) {
@@ -41,7 +41,7 @@ function newSession(newSess) {
         startRingTone();
     } else {
         status = "Trying: " + newSess.displayName;
-        
+
     }
 
     setCallState(status);
@@ -128,7 +128,7 @@ function newSession(newSess) {
             RTCConstraints: {"optional": [{'DtlsSrtpKeyAgreement': 'true'}]}
         }
     });
-    Session   = newSess;
+    Session = newSess;
 
 }
 
@@ -138,19 +138,19 @@ $(document).ready(function () {
     phone.on('connected', function (e) {
         setState("Connected");
     });
-	
-	phone.on('disconnected', function(e) {
+
+    phone.on('disconnected', function (e) {
         setState('An Error occurred while connecting to the websocket.');
     });
-	
-	phone.on('registrationFailed', function(e) {
+
+    phone.on('registrationFailed', function (e) {
         setState('An Error occurred while registering your phone. Check your settings.');
     });
-	
-	phone.on('unregistered', function(e) {
-       setState('An Error occurred while registering your phone. Check your settings.');
+
+    phone.on('unregistered', function (e) {
+        setState('An Error occurred while registering your phone. Check your settings.');
     });
-	
+
     phone.on('registered', function (e) {
 
         setState("Ready");
@@ -164,8 +164,7 @@ $(document).ready(function () {
     phone.on('invite', function (incomingSession) {
 
         var s = incomingSession;
-        if (activeCall)
-        {
+        if (activeCall) {
             s.reject();
             return;
         }
@@ -175,5 +174,38 @@ $(document).ready(function () {
 
     });
 
+    // export a global function for un-registering the phone
+    window.unRegisterPhone = function () {
+        if (phone.isRegistered()) {
+            phone.unregister();
+        }
+    };
+
+    var unRegisterPhoneEvent = function (e) {
+        console.info("Unregistering phone with closing event");
+        window.unRegisterPhone();
+    };
+
+    // register onbeforeunload event
+    if (typeof window.onbeforeunload === "function") {
+        var oldUnloadEvent = window.onbeforeunload;
+        window.onbeforeunload = function (e) {
+            unRegisterPhoneEvent();
+            oldUnloadEvent(e);
+        }
+    } else {
+        window.onbeforeunload = unRegisterPhoneEvent;
+    }
+
+    // register onclose event
+    if (typeof window.onclose === "function") {
+        var oldCloseEvent = window.onclose;
+        window.onclose = function (e) {
+            unRegisterPhoneEvent();
+            oldCloseEvent(e);
+        }
+    } else {
+        window.onclose = unRegisterPhoneEvent;
+    }
 
 });
