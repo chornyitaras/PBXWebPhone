@@ -130,6 +130,7 @@ $options     = base64_decode($options);
         registerExpires: 30,
         iceCheckingTimeout: 10000,
         hackIpInContact: true,
+        rtcpMuxPolicy: "negotiate",
         traceSip: false,
         log: {
             level: 2
