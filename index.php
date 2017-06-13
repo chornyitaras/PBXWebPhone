@@ -140,11 +140,7 @@ $options = base64_decode($options);
                 }
             };
             var server = [
-                //"https://janus.conf.meetecho.com/janus",
-                //"https://myvici.com.ua:8189/janus",
-                //                      "wss://myvici.com.ua:8989"
-                "wss://vici.erplars.com:8089"
-                        //"http://vici.erplars.com:8088/janus"
+                "https://janus.conf.meetecho.com/janus",
             ];
             var janus = null;
             var sipcall = null;
