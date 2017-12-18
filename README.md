@@ -1,6 +1,6 @@
 # PBXWebPhone
 WebRTC based webphone for Vicidial.
-Testet with ViciBox: 7.0.3 | VERSION: 2.14-577a | BUILD: 161126-2157
+Testet with ViciBox: 8.0.1 | VERSION: 2.14-645a | BUILD: 171214-2045 
 
 ## Getting Started
 It is required that your Vicidial installation supports secure connection.
