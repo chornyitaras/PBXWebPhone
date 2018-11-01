@@ -45,12 +45,24 @@ $options     = base64_decode($options);
 <body>
 <audio id="bell" src="sounds/incoming.mp3" loop></audio>
 <audio id="voice"></audio>
+<audio id="dtmf_1" src="sounds/dtmf/1.wav"></audio>
+<audio id="dtmf_2" src="sounds/dtmf/2.wav"></audio>
+<audio id="dtmf_3" src="sounds/dtmf/3.wav"></audio>
+<audio id="dtmf_4" src="sounds/dtmf/4.wav"></audio>
+<audio id="dtmf_5" src="sounds/dtmf/5.wav"></audio>
+<audio id="dtmf_6" src="sounds/dtmf/6.wav"></audio>
+<audio id="dtmf_7" src="sounds/dtmf/7.wav"></audio>
+<audio id="dtmf_8" src="sounds/dtmf/8.wav"></audio>
+<audio id="dtmf_9" src="sounds/dtmf/9.wav"></audio>
+<audio id="dtmf_0" src="sounds/dtmf/0.wav"></audio>
+<audio id="dtmf_*" src="sounds/dtmf/s.wav"></audio>
+<audio id="dtmf_#" src="sounds/dtmf/h.wav"></audio>
 
 <p id="state"></p>
 <p id="callState"></p>
 <p id="errState"></p>
 <button id="btn" onclick="mute_unmute()">Mute</button>
-<script type="text/javascript" src="scripts/sip-0.7.7.min.js"></script>
+<script type="text/javascript" src="scripts/sip-0.11.3.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script type="text/javascript">
@@ -58,6 +70,7 @@ $options     = base64_decode($options);
     var bell = document.getElementById('bell');
     var state = document.getElementById('state');
     var Stream;
+    var audioCtx;
     var activeCall = false;
     var ws_url = "";
     var Session = null;
@@ -125,18 +138,41 @@ $options     = base64_decode($options);
         authorizationUser: phoneLogin,
         displayName: phoneLogin,
         uri: 'sip:' + phoneLogin + '@' + extractDomain(ws_url),
-        wsServers: ws_url,
+        transportOptions: {
+            wsServers: [ws_url],
+            traceSip: false
+        },
         hackWssInTransport: true,
         registerExpires: 30,
-        iceCheckingTimeout: 10000,
         hackIpInContact: true,
-        rtcpMuxPolicy: "negotiate",
-        traceSip: false,
         log: {
             level: 2
+        },
+        sessionDescriptionHandlerFactoryOptions: {
+            constraints: {
+                audio: true,
+                video: false
+            },
+            iceCheckingTimeout: 10000
         }
     };
+
+    var browserUa = navigator.userAgent.toLowerCase();
+    var isSafari = false;
+    var isFirefox = false;
+    if (browserUa.indexOf('safari') > -1 && browserUa.indexOf('chrome') < 0) {
+        isSafari = true;
+    } else if (browserUa.indexOf('firefox') > -1 && browserUa.indexOf('chrome') < 0) {
+        isFirefox = true;
+    }
+    if (isSafari) {
+        config.sessionDescriptionHandlerFactoryOptions.modifiers = [SIP.Web.Modifiers.stripG722];
+    }
+
+    if (isFirefox) {
+        config.sessionDescriptionHandlerFactoryOptions.alwaysAcquireMediaFirst = true;
+    }
 </script>
-<script type="text/javascript" src="scripts/phone.js"></script>
+<script type="text/javascript" src="scripts/phone.js?0.11.3e"></script>
 </body>
 </html>

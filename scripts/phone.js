@@ -18,18 +18,11 @@ function setState(newState) {
     } catch (e) {
     }
 }
+
 function setCallState(newStatus) {
     $('#callState').html(newStatus);
 }
 
-function getUserMediaFailure(e) {
-    window.console.error('getUserMedia failed:', e);
-    setState("You must allow access to your microphone.");
-}
-
-function getUserMediaSuccess(stream) {
-    Stream = stream;
-}
 function newSession(newSess) {
 
     newSess.displayName = newSess.remoteIdentity.displayName || newSess.remoteIdentity.uri.user;
@@ -61,6 +54,7 @@ function newSession(newSess) {
     });
 
     newSess.on('accepted', function (e) {
+        attachMediaToSession(newSess);
         stopRingTone();
         setCallState('Answered');
 
@@ -118,18 +112,29 @@ function newSession(newSess) {
         newSess = null;
     });
 
-    newSess.accept({
-        media: {
-            stream: Stream,
-            constraints: {audio: true, video: false},
-            render: {
-                remote: document.getElementById('voice')
-            },
-            RTCConstraints: {"optional": [{'DtlsSrtpKeyAgreement': 'true'}]}
-        }
-    });
+    newSess.accept();
     Session = newSess;
 
+}
+
+function attachMediaToSession(session) {
+
+    var pc = session.sessionDescriptionHandler.peerConnection;
+    if (pc.getReceivers) {
+        Stream = new window.MediaStream();
+        pc.getReceivers().forEach(function (receiver) {
+            var track = receiver.track;
+            if (track) {
+                Stream.addTrack(track);
+            }
+        });
+    } else {
+        Stream = pc.getRemoteStreams()[0];
+    }
+
+    var domElement = document.getElementById('voice');
+    domElement.srcObject = Stream;
+    domElement.play();
 }
 
 $(document).ready(function () {
@@ -156,9 +161,7 @@ $(document).ready(function () {
         setState("Ready");
 
         // Get the userMedia and cache the stream
-        if (SIP.WebRTC.isSupported()) {
-            SIP.WebRTC.getUserMedia({audio: true, video: false}, getUserMediaSuccess, getUserMediaFailure);
-        }
+        //getUserMediaStream();
     });
 
     phone.on('invite', function (incomingSession) {
@@ -180,6 +183,8 @@ $(document).ready(function () {
             phone.unregister();
         }
     };
+
+    window.SIPPhone = phone;
 
     var unRegisterPhoneEvent = function (e) {
         console.info("Unregistering phone with closing event");
