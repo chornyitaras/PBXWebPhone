@@ -153,6 +153,9 @@ $options     = base64_decode($options);
                 audio: true,
                 video: false
             },
+            peerConnectionOptions: {
+                rtcConfiguration: {"rtcpMuxPolicy":"negotiate"}
+            },
             iceCheckingTimeout: 10000
         }
     };
