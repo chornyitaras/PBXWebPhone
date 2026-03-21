@@ -181,12 +181,63 @@
         }
     }
 
+    function withPeerConnection(callback) {
+        var sessionDescriptionHandler;
+        var peerConnection;
+
+        if (!state.currentSession || !state.currentSession.sessionDescriptionHandler) {
+            return false;
+        }
+
+        sessionDescriptionHandler = state.currentSession.sessionDescriptionHandler;
+        peerConnection = sessionDescriptionHandler.peerConnection;
+
+        if (!peerConnection) {
+            return false;
+        }
+
+        callback(peerConnection);
+        return true;
+    }
+
+    function setLocalTracksMuted(isMuted) {
+        return withPeerConnection(function (peerConnection) {
+            if (peerConnection.getSenders) {
+                peerConnection.getSenders().forEach(function (sender) {
+                    if (sender.track && sender.track.kind === 'audio') {
+                        sender.track.enabled = !isMuted;
+                    }
+                });
+
+                return;
+            }
+
+            if (!peerConnection.getLocalStreams) {
+                return;
+            }
+
+            peerConnection.getLocalStreams().forEach(function (stream) {
+                stream.getAudioTracks().forEach(function (track) {
+                    track.enabled = !isMuted;
+                });
+            });
+        });
+    }
+
     function mute() {
         if (!state.currentSession) {
             return;
         }
 
-        state.currentSession.mute();
+        if (typeof state.currentSession.mute === 'function') {
+            state.currentSession.mute();
+            return;
+        }
+
+        if (setLocalTracksMuted(true)) {
+            setMuteState(true);
+            setCallState('Muted');
+        }
     }
 
     function unmute() {
@@ -194,7 +245,15 @@
             return;
         }
 
-        state.currentSession.unmute();
+        if (typeof state.currentSession.unmute === 'function') {
+            state.currentSession.unmute();
+            return;
+        }
+
+        if (setLocalTracksMuted(false)) {
+            setMuteState(false);
+            setCallState('Answered');
+        }
     }
 
     function toggleMute() {
