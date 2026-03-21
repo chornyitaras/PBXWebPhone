@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>PBXWebPhone Test Harness</title>
+    <style>
+        div.main {
+            float: left;
+            width: 48%;
+            border: 1px solid black;
+        }
+
+        div.main label {
+            width: 200px;
+            display: inline-block;
+        }
+
+        div.main form > div {
+            padding: 5px;
+        }
+
+        iframe.phone {
+            width: 100%;
+            height: 400px;
+            overflow: auto;
+            border: 1px solid red;
+        }
+
+        div.debug {
+            width: 100%;
+            height: 300px;
+            overflow-y: scroll;
+            font-size: 12px;
+            border: 1px solid red;
+        }
+
+        div span.log {
+            color: #333;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 2px;
+            display: block;
+        }
+
+        div span.info {
+            color: #fff;
+            background-color: #5bc0de;
+            border: 1px solid #46b8da;
+            padding: 2px;
+            display: block;
+        }
+
+        div span.error {
+            color: #fff;
+            background-color: #d9534f;
+            border: 1px solid #d43f3a;
+            padding: 2px;
+            display: block;
+        }
+
+        div span.debug {
+            color: #fff;
+            background-color: #f0ad4e;
+            border: 1px solid #eea236;
+            padding: 2px;
+            display: block;
+        }
+
+        div.legend span {
+            padding: 3px;
+            display: inline-block !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h2>Test Phone Variables:</h2>
+
+        <p>After you send the form, phone page will be displayed in the right frame.</p>
+
+        <form id="phone_form">
+            <div>
+                <label for="phone_login">
+                    <strong>Phone Login:</strong>
+                </label>
+
+                <input type="text" placeholder="Enter phone login" id="phone_login" name="phone_login">
+            </div>
+
+            <div>
+                <label for="phone_pass">
+                    <strong>Phone Pass:</strong>
+                </label>
+
+                <input type="text" placeholder="Enter phone password" id="phone_pass" name="phone_pass">
+            </div>
+
+            <div>
+                <label for="websocket_url">
+                    <strong>WebSocket URL:</strong>
+                </label>
+
+                <input type="text" placeholder="Enter WebSocket URL" id="websocket_url" name="websocket_url">
+            </div>
+
+            <div>
+                <button type="submit">
+                    Test Now
+                </button>
+            </div>
+        </form>
+
+        <div class="legend">
+            <h3>Console:</h3>
+
+            <strong>
+                Legend:
+
+                <span class="log">Log</span>
+                <span class="error">Error</span>
+                <span class="info">Info</span>
+                <span class="debug">Debug</span>
+            </strong>
+        </div>
+        <div class="debug" id="console_debug"></div>
+
+        <button type="button" id="clear_debug">
+            Clear Console
+        </button>
+    </div>
+    <div class="main">
+        <h2>Test Phone Iframe:</h2>
+
+        <iframe name="phone_iframe" src="about:blank" class="phone" id="phone_iframe"></iframe>
+
+        <button type="button" id="close_phone">
+            Close Phone
+        </button>
+    </div>
+
+    <script src="scripts/test-page.js"></script>
+</body>
+</html>

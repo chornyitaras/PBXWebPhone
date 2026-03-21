@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>WEB PHONE</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #state,
+        #callState,
+        #errState {
+            min-height: 1.25rem;
+            margin: 0.5rem 0;
+        }
+
+        #errState {
+            color: #a94442;
+        }
+
+        .div-keypad {
+            position: fixed;
+            top: 70px;
+            left: 50%;
+            width: 250px;
+            height: 240px;
+            transform: translateX(-50%);
+            visibility: hidden;
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 0.5rem;
+            box-sizing: border-box;
+        }
+
+        .div-keypad table {
+            width: 100%;
+            height: 100%;
+        }
+
+        .control-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .dtmf-button,
+        #btn,
+        #btnKeyPad,
+        #closeKeyPad {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <audio id="bell" src="sounds/incoming.mp3" loop></audio>
+    <audio id="voice"></audio>
+    <audio id="dtmf_1" src="sounds/dtmf/1.wav"></audio>
+    <audio id="dtmf_2" src="sounds/dtmf/2.wav"></audio>
+    <audio id="dtmf_3" src="sounds/dtmf/3.wav"></audio>
+    <audio id="dtmf_4" src="sounds/dtmf/4.wav"></audio>
+    <audio id="dtmf_5" src="sounds/dtmf/5.wav"></audio>
+    <audio id="dtmf_6" src="sounds/dtmf/6.wav"></audio>
+    <audio id="dtmf_7" src="sounds/dtmf/7.wav"></audio>
+    <audio id="dtmf_8" src="sounds/dtmf/8.wav"></audio>
+    <audio id="dtmf_9" src="sounds/dtmf/9.wav"></audio>
+    <audio id="dtmf_0" src="sounds/dtmf/0.wav"></audio>
+    <audio id="dtmf_*" src="sounds/dtmf/s.wav"></audio>
+    <audio id="dtmf_#" src="sounds/dtmf/h.wav"></audio>
+    <audio id="dtmfTone" src="sounds/dtmf.wav"></audio>
+
+    <p id="state"></p>
+    <p id="callState"></p>
+    <p id="errState"></p>
+
+    <div id="divKeyPad" class="span2 well div-keypad" aria-hidden="true">
+        <table>
+            <tr>
+                <td>
+                    <button type="button" class="btn dtmf-button" data-dtmf="1" style="width: 33%;">1</button>
+                    <button type="button" class="btn dtmf-button" data-dtmf="2" style="width: 33%;">2</button>
+                    <button type="button" class="btn dtmf-button" data-dtmf="3" style="width: 33%;">3</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" class="btn dtmf-button" data-dtmf="4" style="width: 33%;">4</button>
+                    <button type="button" class="btn dtmf-button" data-dtmf="5" style="width: 33%;">5</button>
+                    <button type="button" class="btn dtmf-button" data-dtmf="6" style="width: 33%;">6</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" class="btn dtmf-button" data-dtmf="7" style="width: 33%;">7</button>
+                    <button type="button" class="btn dtmf-button" data-dtmf="8" style="width: 33%;">8</button>
+                    <button type="button" class="btn dtmf-button" data-dtmf="9" style="width: 33%;">9</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" class="btn dtmf-button" data-dtmf="*" style="width: 33%;">*</button>
+                    <button type="button" class="btn dtmf-button" data-dtmf="0" style="width: 33%;">0</button>
+                    <button type="button" class="btn dtmf-button" data-dtmf="#" style="width: 33%;">#</button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <button type="button" id="closeKeyPad" class="btn btn-medium btn-danger" style="width: 100%;">Close</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="control-row">
+        <button id="btn" type="button">Mute</button>
+        <button type="button" class="btn" id="btnKeyPad">KeyPad</button>
+    </div>
+
+    <script src="scripts/bootstrap.js"></script>
+    <script src="scripts/sip-0.11.6.min.js"></script>
+    <script src="scripts/phone.js?0.11.5"></script>
+</body>
+</html>
