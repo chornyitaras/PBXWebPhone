@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PBXWebPhone Docs</title>
+    <style>
+        :root {
+            --bg: #f4efe6;
+            --panel: #fffaf2;
+            --panel-strong: #ffffff;
+            --ink: #1c2731;
+            --muted: #5a6876;
+            --line: #d9cdb7;
+            --accent: #0f5c5c;
+            --accent-soft: #d8efea;
+            --accent-strong: #0a3f40;
+            --warning: #a35d1d;
+            --shadow: 0 18px 40px rgba(28, 39, 49, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Trebuchet MS", "Lucida Sans Unicode", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(15, 92, 92, 0.12), transparent 28rem),
+                linear-gradient(180deg, #fbf7f0 0%, var(--bg) 100%);
+        }
+
+        a {
+            color: var(--accent-strong);
+        }
+
+        a:hover {
+            color: var(--accent);
+        }
+
+        .page {
+            width: min(1080px, calc(100vw - 32px));
+            margin: 0 auto;
+            padding: 32px 0 56px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.95fr);
+            gap: 24px;
+            align-items: stretch;
+            margin-bottom: 28px;
+        }
+
+        .hero-card,
+        .panel {
+            background: rgba(255, 250, 242, 0.92);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(6px);
+        }
+
+        .hero-copy {
+            padding: 32px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            margin-bottom: 14px;
+            padding: 0.45rem 0.8rem;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent-strong);
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin: 0 0 0.8rem;
+            font-family: Georgia, "Times New Roman", serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        h1 {
+            font-size: clamp(2.2rem, 5vw, 4.1rem);
+            line-height: 0.95;
+            max-width: 11ch;
+        }
+
+        h2 {
+            font-size: 1.7rem;
+        }
+
+        h3 {
+            font-size: 1.15rem;
+        }
+
+        p {
+            margin: 0 0 1rem;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .button,
+        .button-muted {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 0 18px;
+            border-radius: 999px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+        }
+
+        .button:hover,
+        .button-muted:hover {
+            transform: translateY(-1px);
+        }
+
+        .button {
+            background: var(--accent);
+            border: 1px solid var(--accent);
+            color: #fffaf2;
+        }
+
+        .button:hover {
+            background: var(--accent-strong);
+            border-color: var(--accent-strong);
+            color: #fffaf2;
+        }
+
+        .button-muted {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--ink);
+        }
+
+        .hero-facts {
+            padding: 24px;
+            display: grid;
+            gap: 14px;
+        }
+
+        .fact {
+            padding: 16px 18px;
+            border-radius: 18px;
+            background: var(--panel-strong);
+            border: 1px solid var(--line);
+        }
+
+        .fact strong {
+            display: block;
+            margin-bottom: 0.35rem;
+            font-size: 1.05rem;
+        }
+
+        .fact span {
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+            margin-bottom: 22px;
+        }
+
+        .panel {
+            padding: 24px;
+        }
+
+        .list {
+            margin: 0;
+            padding-left: 1.15rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .list li + li {
+            margin-top: 0.45rem;
+        }
+
+        code,
+        pre {
+            font-family: "Courier New", monospace;
+        }
+
+        .code {
+            overflow-x: auto;
+            margin: 0;
+            padding: 16px;
+            border-radius: 16px;
+            background: #15202b;
+            color: #e8f0f7;
+            line-height: 1.55;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .note {
+            margin-top: 14px;
+            padding: 14px 16px;
+            border-left: 4px solid var(--warning);
+            border-radius: 12px;
+            background: #fff3e3;
+            color: #734719;
+        }
+
+        .params {
+            display: grid;
+            gap: 12px;
+        }
+
+        .param {
+            padding: 14px 16px;
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            background: var(--panel-strong);
+        }
+
+        .param code {
+            font-weight: 700;
+            color: var(--accent-strong);
+        }
+
+        .param p:last-child {
+            margin-bottom: 0;
+        }
+
+        .showcase {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+            gap: 24px;
+            align-items: center;
+        }
+
+        .screenshot {
+            width: 100%;
+            display: block;
+            border-radius: 20px;
+            border: 1px solid var(--line);
+            box-shadow: 0 18px 36px rgba(16, 42, 67, 0.14);
+            background: #ffffff;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding: 22px 24px;
+            border-radius: 20px;
+            background: rgba(28, 39, 49, 0.92);
+            color: rgba(255, 250, 242, 0.84);
+        }
+
+        .footer p {
+            color: inherit;
+            margin: 0;
+        }
+
+        @media (max-width: 860px) {
+            .hero,
+            .grid,
+            .showcase {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-copy,
+            .hero-facts,
+            .panel {
+                padding: 22px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .page {
+                width: calc(100vw - 20px);
+                padding-top: 16px;
+                padding-bottom: 28px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .button,
+            .button-muted {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <section class="hero">
+            <article class="hero-card hero-copy">
+                <span class="eyebrow">PBXWebPhone</span>
+                <h1>Static WebRTC phone for Vicidial.</h1>
+                <p>PBXWebPhone is a lightweight browser softphone built around SIP.js. The current project runs as static HTML and JavaScript, with an optional <code>index.php</code> compatibility shim for older integrations.</p>
+                <p>This page is designed to live inside <code>docs/</code> so it can be published directly with GitHub Pages.</p>
+                <div class="hero-actions">
+                    <a class="button" href="https://github.com/chornyitaras/PBXWebPhone">Open Repository</a>
+                    <a class="button-muted" href="https://github.com/chornyitaras/PBXWebPhone/wiki">Open Wiki</a>
+                </div>
+            </article>
+            <aside class="hero-card hero-facts">
+                <div class="fact">
+                    <strong>Main app</strong>
+                    <span><code>index.html</code> is the static phone entrypoint.</span>
+                </div>
+                <div class="fact">
+                    <strong>Legacy compatibility</strong>
+                    <span><code>index.php</code> now serves the static app so older URLs keep working.</span>
+                </div>
+                <div class="fact">
+                    <strong>Local testing</strong>
+                    <span><code>test.html</code> builds encoded query parameters and loads the phone in an iframe.</span>
+                </div>
+            </aside>
+        </section>
+
+        <section class="grid">
+            <article class="panel">
+                <h2>Getting Started</h2>
+                <ol class="list">
+                    <li>Clone this repository into your Vicidial web directory.</li>
+                    <li>Serve the project over HTTP or HTTPS. A secure connection is required for WebRTC in normal browser setups.</li>
+                    <li>Configure Asterisk, Apache, Vicidial, and firewall access for the WebSocket endpoint.</li>
+                    <li>Open <code>index.html</code> for the phone or <code>test.html</code> for the local test harness.</li>
+                </ol>
+                <div class="note">
+                    Existing systems that still point to <code>index.php</code> can continue using that path. The compatibility layer now forwards them to the static app.
+                </div>
+            </article>
+            <article class="panel">
+                <h2>Deployment Notes</h2>
+                <ul class="list">
+                    <li>The application itself lives in the repository root.</li>
+                    <li>This <code>docs/</code> folder is documentation-only and is safe to publish through GitHub Pages.</li>
+                    <li>For GitHub Pages, set the Pages source to the repository branch and the <code>/docs</code> folder.</li>
+                    <li>If you publish the full app elsewhere, keep the WebSocket server reachable from the browser.</li>
+                </ul>
+            </article>
+        </section>
+
+        <section class="grid">
+            <article class="panel">
+                <h2>Query Parameters</h2>
+                <p>The phone bootstraps itself entirely from query parameters. Values are expected to be base64-encoded.</p>
+                <div class="params">
+                    <div class="param">
+                        <code>phone_login</code>
+                        <p>Agent or extension login used for SIP authorization and display name.</p>
+                    </div>
+                    <div class="param">
+                        <code>phone_pass</code>
+                        <p>Password used when registering the SIP user.</p>
+                    </div>
+                    <div class="param">
+                        <code>options</code>
+                        <p>Encoded option string. The current app extracts the WebSocket URL from a <code>WEBSOCKETURL...</code> token inside this field.</p>
+                    </div>
+                    <div class="param">
+                        <code>server_ip</code>
+                        <p>Accepted for compatibility. The current static boot flow preserves it in the config object.</p>
+                    </div>
+                </div>
+            </article>
+            <article class="panel">
+                <h2>Sample Launch URL</h2>
+                <pre class="code">index.html?phone_login=BASE64_LOGIN&amp;phone_pass=BASE64_PASS&amp;options=BASE64_OPTIONS</pre>
+                <p>The local test page constructs this URL for you, including the WebSocket option string expected by the app.</p>
+                <h3>Useful project files</h3>
+                <ul class="list">
+                    <li><code>index.html</code> for the static phone UI</li>
+                    <li><code>scripts/bootstrap.js</code> for decoding incoming query parameters</li>
+                    <li><code>scripts/phone.js</code> for SIP registration, call lifecycle, keypad, and mute behavior</li>
+                    <li><code>test.html</code> for manual browser-side testing</li>
+                </ul>
+            </article>
+        </section>
+
+        <section class="panel showcase">
+            <div>
+                <h2>What the UI Looks Like</h2>
+                <p>The current static interface keeps the webphone intentionally small and focused: connection state, call state, mute, and a keypad overlay for DTMF input.</p>
+                <p>If you are documenting the project publicly, this screenshot can be used directly from the published <code>docs/</code> site.</p>
+            </div>
+            <img class="screenshot" src="assets/img1.PNG" alt="PBXWebPhone screenshot">
+        </section>
+
+        <section class="footer">
+            <p>PBXWebPhone documentation site. For installation details beyond this summary, use the repository wiki linked above.</p>
+        </section>
+    </main>
+</body>
+</html>

@@ -19,6 +19,11 @@ It is required that your Vicidial installation supports secure connection.
 - Local test page: `test.html`
 - Existing integrations that linked to `index.php` should be updated to link to `index.html` with the same query parameters.
 
+## Documentation
+- Static documentation for GitHub Pages lives in `docs/`
+- GitHub Pages entrypoint: `docs/index.html`
+- The screenshot used by the docs site is bundled in `docs/assets/`
+
 # Screenshot
 You should see something like this when login as agent:
 
