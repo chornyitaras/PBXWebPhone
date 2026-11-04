@@ -3,138 +3,267 @@
 <head>
     <meta charset="utf-8">
     <title>WEB PHONE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+        :root {
+            --surface: #ffffff;
+            --border: #d5dee8;
+            --text: #1f2933;
+            --text-muted: #5f6c7b;
+            --btn-bg: #f4f7fa;
+            --btn-bg-hover: #e8eef5;
+            --btn-border: #c3d0dd;
+            --ok: #1f9d55;
+            --pending: #d69e2e;
+            --error: #c53030;
+            --answer-bg: #1f9d55;
+            --answer-bg-hover: #198247;
+            --hangup-bg: #d64545;
+            --hangup-bg-hover: #b83232;
+            --radius: 8px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html,
         body {
             margin: 0;
-            min-height: 100vh;
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: linear-gradient(180deg, #f5f7fb 0%, #edf2f7 100%);
-            color: #1f2933;
+            background: transparent;
+            overflow-x: hidden;
+        }
+
+        body {
+            font: 14px/1.35 "Segoe UI", Arial, sans-serif;
+            color: var(--text);
         }
 
         .phone-shell {
             position: relative;
-            width: min(360px, calc(100vw - 32px));
-            margin: 24px;
-            padding: 18px;
-            background: #ffffff;
-            border: 1px solid #d8e1ea;
-            border-radius: 16px;
-            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
-            box-sizing: border-box;
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
         }
 
+        /* Status */
         .status-stack {
             display: grid;
-            gap: 0.35rem;
+            gap: 2px;
+            min-height: 40px;
         }
 
-        #state,
-        #callState,
-        #errState {
-            min-height: 1.25rem;
-            margin: 0;
-            font-size: 1rem;
-            line-height: 1.3;
-        }
-
-        #errState {
-            color: #b42318;
-        }
-
-        .div-keypad {
-            position: absolute;
-            top: 106px;
-            left: 18px;
-            right: 18px;
-            visibility: hidden;
-            background: #fff;
-            border: 1px solid #d8e1ea;
-            border-radius: 14px;
-            padding: 0.85rem;
-            box-sizing: border-box;
-            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.16);
-            z-index: 10;
-        }
-
-        .keypad-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 0.65rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .control-row {
+        #state {
             display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
+            align-items: center;
+            gap: 6px;
+            margin: 0;
+            font-size: 12px;
+            color: var(--text-muted);
         }
 
+        #state::before {
+            content: "";
+            flex: none;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border);
+        }
+
+        #state[data-level="ok"]::before { background: var(--ok); }
+        #state[data-level="pending"]::before { background: var(--pending); }
+        #state[data-level="error"]::before { background: var(--error); }
+
+        #callState {
+            margin: 0;
+            min-height: 20px;
+            font-size: 15px;
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        #errState {
+            margin: 0;
+            font-size: 12px;
+            color: var(--error);
+        }
+
+        #errState:empty {
+            display: none;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        /* Buttons */
         .dtmf-button,
+        .ctl,
         #btn,
-        #btnKeyPad,
-        #closeKeyPad {
+        #btnKeyPad {
+            min-width: 0;
+            height: 34px;
+            padding: 0 8px;
             cursor: pointer;
             appearance: none;
-            border: 1px solid #bfd0e0;
-            border-radius: 10px;
-            background: #f8fafc;
-            color: #102a43;
+            border: 1px solid var(--btn-border);
+            border-radius: var(--radius);
+            background: var(--btn-bg);
+            color: var(--text);
             font: inherit;
-            line-height: 1;
-            transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: background 0.12s ease, border-color 0.12s ease;
         }
 
         .dtmf-button:hover,
+        .ctl:hover,
         #btn:hover,
-        #btnKeyPad:hover,
-        #closeKeyPad:hover {
-            background: #eef4fb;
-            border-color: #98afc4;
+        #btnKeyPad:hover {
+            background: var(--btn-bg-hover);
         }
 
         .dtmf-button:active,
+        .ctl:active,
         #btn:active,
-        #btnKeyPad:active,
-        #closeKeyPad:active {
+        #btnKeyPad:active {
             transform: translateY(1px);
         }
 
-        .dtmf-button {
-            min-height: 46px;
-            font-size: 1.05rem;
+        button:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        button:focus-visible,
+        #dialDigits:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 1px;
+        }
+
+        .ctl-answer,
+        .ctl-hangup {
+            border-color: transparent;
+            color: #ffffff;
             font-weight: 600;
         }
 
-        #btn,
-        #btnKeyPad {
-            min-width: 86px;
-            padding: 0.75rem 1rem;
+        .ctl-answer { background: var(--answer-bg); }
+        .ctl-answer:hover { background: var(--answer-bg-hover); }
+        .ctl-hangup { background: var(--hangup-bg); }
+        .ctl-hangup:hover { background: var(--hangup-bg-hover); }
+
+        /* Dial box */
+        .dial-row {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
         }
 
-        #closeKeyPad {
-            width: 100%;
-            min-height: 44px;
+        #dialDigits {
+            flex: 1;
+            min-width: 0;
+            height: 34px;
+            padding: 0 10px;
+            border: 1px solid var(--btn-border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            color: var(--text);
+            font: inherit;
+        }
+
+        #btnDial {
+            flex: none;
+        }
+
+        /* Call controls: Answer / Hang up span the full row, the rest share it evenly */
+        .call-row,
+        .control-row {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .call-row:not(:has(> :not([hidden]))) {
+            display: none;
+        }
+
+        .call-row > *,
+        .control-row > * {
+            flex: 1 1 0;
+        }
+
+        .vol-group {
+            display: flex;
+            flex: 1 1 0;
+            min-width: 0;
+        }
+
+        .vol-group > button {
+            flex: 1 1 0;
+            padding: 0 4px;
+        }
+
+        .vol-group > button:first-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .vol-group > button:last-child {
+            margin-left: -1px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        /* Keypad (inline, below the controls so Mute / Hang up stay reachable) */
+        .div-keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border);
+        }
+
+        .keypad-grid {
+            display: contents;
+        }
+
+        .dtmf-button {
+            height: 34px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        #btnKeyPad[aria-expanded="true"] {
             background: #102a43;
             border-color: #102a43;
             color: #ffffff;
         }
 
-        #closeKeyPad:hover {
-            background: #0b2239;
-            border-color: #0b2239;
+        .vol-group svg {
+            display: block;
+            margin: 0 auto;
         }
 
-        @media (max-width: 480px) {
-            .phone-shell {
-                margin: 12px;
-                width: calc(100vw - 24px);
-            }
-
-            .div-keypad {
-                left: 12px;
-                right: 12px;
-            }
+        #debugLog {
+            max-height: 120px;
+            overflow: auto;
+            margin: 8px 0 0;
+            padding: 6px;
+            background: #f1f5f9;
+            border-radius: 6px;
+            font: 11px/1.3 ui-monospace, Menlo, Consolas, monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
         }
     </style>
 </head>
@@ -154,7 +283,6 @@
         <audio id="dtmf_0" src="sounds/dtmf/0.wav"></audio>
         <audio id="dtmf_*" src="sounds/dtmf/s.wav"></audio>
         <audio id="dtmf_#" src="sounds/dtmf/h.wav"></audio>
-        <audio id="dtmfTone" src="sounds/dtmf.wav"></audio>
 
         <div class="status-stack">
             <p id="state"></p>
@@ -162,7 +290,25 @@
             <p id="errState"></p>
         </div>
 
-        <div id="divKeyPad" class="span2 well div-keypad" aria-hidden="true">
+        <div class="dial-row" id="dialBox" hidden>
+            <input id="dialDigits" type="tel" inputmode="tel" autocomplete="off" placeholder="Number" aria-label="Number to dial">
+            <button type="button" class="ctl" id="btnDial">Call</button>
+        </div>
+
+        <div class="call-row">
+            <button type="button" class="ctl ctl-answer" id="btnAnswer" hidden>Answer</button>
+            <button type="button" class="ctl ctl-hangup" id="btnHangup" hidden>Hang up</button>
+        </div>
+
+        <div class="control-row">
+            <button id="btn" type="button">Mute</button>
+            <button type="button" class="btn" id="btnKeyPad" aria-controls="divKeyPad" aria-expanded="false">Keypad</button>
+            <div class="vol-group" id="volGroup" role="group" aria-label="Volume">
+                <button type="button" class="ctl" id="btnVolDown" aria-label="Volume down" title="Volume down"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 6h2.5L9 3v10L5.5 10H3z" fill="currentColor"/><path d="M11 8h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+                <button type="button" class="ctl" id="btnVolUp" aria-label="Volume up" title="Volume up"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 6h2.5L9 3v10L5.5 10H3z" fill="currentColor"/><path d="M11 8h4M13 6v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+            </div>
+        </div>
+        <div id="divKeyPad" class="div-keypad" hidden>
             <div class="keypad-grid">
                 <button type="button" class="btn dtmf-button" data-dtmf="1">1</button>
                 <button type="button" class="btn dtmf-button" data-dtmf="2">2</button>
@@ -177,17 +323,13 @@
                 <button type="button" class="btn dtmf-button" data-dtmf="0">0</button>
                 <button type="button" class="btn dtmf-button" data-dtmf="#">#</button>
             </div>
-            <button type="button" id="closeKeyPad" class="btn btn-medium btn-danger">Close</button>
         </div>
 
-        <div class="control-row">
-            <button id="btn" type="button">Mute</button>
-            <button type="button" class="btn" id="btnKeyPad">KeyPad</button>
-        </div>
+        <pre id="debugLog" hidden></pre>
     </div>
 
-    <script src="scripts/bootstrap.js"></script>
+    <script src="scripts/bootstrap.js?0.12.1"></script>
     <script src="scripts/sip-0.11.6.min.js"></script>
-    <script src="scripts/phone.js?0.11.7"></script>
+    <script src="scripts/phone.js?0.12.1"></script>
 </body>
 </html>

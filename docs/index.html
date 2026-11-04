@@ -373,7 +373,7 @@
                     </div>
                     <div class="param">
                         <code>options</code>
-                        <p>Encoded option string. The current app extracts the WebSocket URL from a <code>WEBSOCKETURL...</code> token inside this field.</p>
+                        <p>Base64 option string built by VICIdial from the phone record, tokens joined by <code>--</code>. Supported: <code>WEBSOCKETURL…</code>, <code>MUTE_Y/N</code>, <code>DIALPAD_Y/N/TOGGLE/OFF_TOGGLE</code> (only <code>N</code> hides the keypad), <code>AUTOANSWER_Y/N</code> (<code>N</code> shows Answer and Hang up buttons), <code>DIALBOX_Y/N</code>, <code>VOLUME_Y/N</code>, <code>DEBUG</code>, <code>WEBPHONELAYOUT…</code> (an http(s) URL, or a name loaded from <code>css/</code>), <code>SESSION…</code> and <code>SETTINGS…</code> (the Webphone Extra Settings container: <code>autoGain</code>, <code>echoCan</code>, <code>noiseSup</code>, <code>dialRegExten</code>, and <code>lang*</code> status texts, following VICIphone).</p>
                     </div>
                     <div class="param">
                         <code>server_ip</code>
@@ -398,7 +398,7 @@
         <section class="panel showcase">
             <div>
                 <h2>What the UI Looks Like</h2>
-                <p>The current static interface keeps the webphone intentionally small and focused: connection state, call state, mute, and a keypad overlay for DTMF input.</p>
+                <p>The static interface keeps the webphone small and focused: connection state, call state, Answer and Hang up, mute, volume, an optional dial box, and a keypad overlay for DTMF input. Each control can be switched off through the VICIdial phone settings.</p>
                 <p>If you are documenting the project publicly, this screenshot can be used directly from the published <code>docs/</code> site.</p>
             </div>
             <img class="screenshot" src="assets/img1.PNG" alt="PBXWebPhone screenshot">
